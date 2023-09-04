@@ -13,3 +13,5 @@ runs
 __version__*
 PKG-INFO
 RAVE training command
+scripts/status/data.mdb
+scripts/status/lock.mdb
