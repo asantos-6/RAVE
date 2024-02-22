@@ -16,6 +16,8 @@ import rave.core
 
 from . import blocks
 
+import wandb
+
 
 _default_loss_weights = {
     'audio_distance': 1.,
@@ -413,14 +415,20 @@ class RAVE(pl.LightningModule):
             gen_opt.step()
 
         # LOGGING
+            
         self.log("beta_factor", self.beta_factor)
+        wandb.log({"beta_factor": self.beta_factor})
+
 
         if self.warmed_up:
             self.log("loss_dis", loss_dis)
             self.log("pred_real", pred_real.mean())
             self.log("pred_fake", pred_fake.mean())
+            wandb.log({"loss_dis": loss_dis, "pred_real": pred_real.mean(), "pred_fake": pred_fake.mean()})
+
 
         self.log_dict(loss_gen)
+        wandb.log(loss_gen)
         p.tick('logging')
 
     def validation_step(self, x, batch_idx):

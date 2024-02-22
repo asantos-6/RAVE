@@ -22,6 +22,9 @@ import rave.dataset
 from rave.transforms import get_augmentations, add_augmentation
 
 
+import wandb
+
+
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('name', None, help='Name of the run', required=True)
@@ -265,6 +268,9 @@ def main(argv):
     with open(os.path.join(FLAGS.out_path, RUN_NAME, "config.gin"), "w") as config_out:
         config_out.write(gin.operative_config_str())
 
+    wandb.init(
+        project="TTM-pitch_shift-3patterns-1participant"
+    )
     trainer.fit(model, train, val, ckpt_path=run)
 
 
