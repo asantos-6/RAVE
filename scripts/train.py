@@ -12,6 +12,10 @@ from torch.utils.data import DataLoader
 import rave
 import rave.core
 import rave.dataset
+from rave.transforms import get_augmentations, add_augmentation
+
+import wandb
+
 
 FLAGS = flags.FLAGS
 
@@ -210,4 +214,7 @@ def main(argv):
     with open(os.path.join("runs", RUN_NAME, "config.gin"), "w") as config_out:
         config_out.write(gin.operative_config_str())
 
+    wandb.init(
+        project="TTM-pitch_shift-3patterns-1participant"
+    )
     trainer.fit(model, train, val, ckpt_path=run)
